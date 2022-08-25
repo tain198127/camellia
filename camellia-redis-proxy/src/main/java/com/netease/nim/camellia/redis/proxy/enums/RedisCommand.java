@@ -204,6 +204,7 @@ public enum RedisCommand {
     PSUBSCRIBE(CommandSupportType.PARTIALLY_SUPPORT_1, Type.WRITE, CommandType.PUB_SUB, true, CommandKeyType.None),
     PUNSUBSCRIBE(CommandSupportType.PARTIALLY_SUPPORT_1, Type.WRITE, CommandType.PUB_SUB, false, CommandKeyType.None),
     PUBSUB(CommandSupportType.PARTIALLY_SUPPORT_1, Type.READ, CommandType.PUB_SUB, false, CommandKeyType.None),
+    CLUSTER(CommandSupportType.PARTIALLY_SUPPORT_1, Type.READ, CommandType.DB, false, CommandKeyType.None),
 
     /**
      * Partially Support
@@ -240,7 +241,7 @@ public enum RedisCommand {
     TIME(CommandSupportType.NOT_SUPPORT, null, null, false, null),
     MIGRATE(CommandSupportType.NOT_SUPPORT, null, null, false, null),
     WAIT(CommandSupportType.NOT_SUPPORT, null, null, false, null),
-    CLUSTER(CommandSupportType.NOT_SUPPORT, null, null, false, null),
+    
     ASKING(CommandSupportType.NOT_SUPPORT, null, null, false, null),
     READONLY(CommandSupportType.NOT_SUPPORT, null, null, false, null),
 

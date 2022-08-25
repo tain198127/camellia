@@ -35,11 +35,26 @@ public class Constants {
         public static final int workThread = SysUtils.getCpuNum();
         public static final int commandDecodeMaxBatchSize = 256;
         public static final int commandDecodeBufferInitializerSize = 32;
-
+        /**
+         * 是否开启tcpNoDelay，默认为开启
+         */
         public static final boolean tcpNoDelay = true;
+        /**
+         * 服务端可连接队列大小，默认1024个
+         */
         public static final int soBacklog = 1024;
+        /**
+         * 发送缓冲区
+         */
         public static final int soSndbuf = 10 * 1024 * 1024;
+        /**
+         * 接收缓存区
+         */
         public static final int soRcvbuf = 10 * 1024 * 1024;
+        /**
+         * 当设置该选项以后，连接会测试链接的状态，这个选项用于可能长时间没有数据交流的连接。当设置该选项以后，
+         * 如果在两小时内没有数据的通信时，TCP会自动发送一个活动探测数据报文
+         */
         public static final boolean soKeepalive = false;
         public static final int readerIdleTimeSeconds = -1;
         public static final int writerIdleTimeSeconds = -1;

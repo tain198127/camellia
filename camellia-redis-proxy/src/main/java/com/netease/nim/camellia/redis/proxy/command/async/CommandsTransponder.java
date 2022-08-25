@@ -5,6 +5,7 @@ import com.netease.nim.camellia.redis.proxy.command.ClientCommandUtil;
 import com.netease.nim.camellia.redis.proxy.command.Command;
 import com.netease.nim.camellia.redis.proxy.command.HelloCommandUtil;
 import com.netease.nim.camellia.redis.proxy.command.async.bigkey.BigKeyHunter;
+import com.netease.nim.camellia.redis.proxy.command.async.cluster.ClusterProxyInfoUtils;
 import com.netease.nim.camellia.redis.proxy.command.async.connectlimit.ConnectLimiterHolder;
 import com.netease.nim.camellia.redis.proxy.command.async.converter.Converters;
 import com.netease.nim.camellia.redis.proxy.command.async.hotkey.HotKeyHunter;
@@ -169,7 +170,12 @@ public class CommandsTransponder {
                     hasCommandsSkip = true;
                     continue;
                 }
-
+                if(redisCommand == RedisCommand.CLUSTER){
+                    CompletableFuture<Reply> future = ClusterProxyInfoUtils.getInfoReply(command);
+                    future.thenAccept(task::replyCompleted);
+                    hasCommandsSkip = true;
+                    continue;
+                }
                 if (redisCommand == RedisCommand.HELLO) {
                     boolean hasBidBgroup = channelInfo.getBid() != null && channelInfo.getBgroup() != null;
                     Reply reply = HelloCommandUtil.invokeHelloCommand(channelInfo, authCommandProcessor, command);
@@ -205,7 +211,7 @@ public class CommandsTransponder {
                     hasCommandsSkip = true;
                     continue;
                 }
-
+                
                 if (redisCommand == RedisCommand.INFO) {
                     CompletableFuture<Reply> future = ProxyInfoUtils.getInfoReply(command, chooser);
                     future.thenAccept(task::replyCompleted);

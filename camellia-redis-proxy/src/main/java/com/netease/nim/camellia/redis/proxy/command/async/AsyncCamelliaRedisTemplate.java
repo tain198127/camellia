@@ -234,6 +234,7 @@ public class AsyncCamelliaRedisTemplate implements IAsyncCamelliaRedisTemplate {
                     case SUBSCRIBE:
                     case PSUBSCRIBE:
                     case UNSUBSCRIBE:
+                    case CLUSTER:
                     case PUNSUBSCRIBE:
                         future = commandFlusher.sendCommand(client, command);
                         incrWrite(resource, command);
