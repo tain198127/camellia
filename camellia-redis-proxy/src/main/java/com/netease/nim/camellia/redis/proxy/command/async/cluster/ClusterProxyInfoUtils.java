@@ -9,6 +9,8 @@ import com.netease.nim.camellia.redis.proxy.reply.Reply;
 import com.netease.nim.camellia.redis.proxy.util.ErrorLogCollector;
 import com.netease.nim.camellia.redis.proxy.util.Utils;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -18,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class ClusterProxyInfoUtils {
     //TODO 这里需要根据环境进行配置
     private static ClusterProxy _proxy = new ClusterProxyGroupsImpl();
-    
+    private static final Logger logger = LoggerFactory.getLogger(ClusterProxyInfoUtils.class);
     private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(8), new DefaultThreadFactory("cluster-info"));
     /**
@@ -55,15 +57,29 @@ public class ClusterProxyInfoUtils {
                 if (objects.length == 2) {
                     String section = Utils.bytesToString(objects[1]);
                     if (section.equalsIgnoreCase("INFO")) {
-                        builder.append(_proxy.info()).append("\r\n");
+                        builder.append(_proxy.info());
                     } else if (section.equalsIgnoreCase("MYID")) {
                         builder.append(_proxy.myID());
                     } else if (section.equalsIgnoreCase("NODES")) {
-                        builder.append(_proxy.nodes()).append("\r\n");
+                        builder.append(_proxy.nodes());
                     } else if (section.equalsIgnoreCase("SLOTS")) {
-                        builder.append(_proxy.slots()).append("\r\n");
+                        builder.append(_proxy.slots());
                     }
-                }  else {
+                }else if(objects.length == 3){
+                    String section = Utils.bytesToString(objects[1]);
+                    if(section.equalsIgnoreCase("KEYSLOT")){
+                        builder.append(_proxy.keySlot(Utils.bytesToString(objects[2])));
+                    }
+                }
+                else {
+                    if(logger.isDebugEnabled()) {
+                        for (int i = 0; i < objects.length; i++) {
+                            logger.debug("%s \n",Utils.bytesToString(objects[i]));
+                            for(int j=0;j < objects[i].length;j++){
+                                logger.debug("  -->%s\n",Utils.bytesToString(objects[j]));
+                            }
+                        }
+                    }
                     return ErrorReply.NOT_SUPPORT;
                 }
             }

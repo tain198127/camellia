@@ -1,6 +1,6 @@
 package com.netease.nim.camellia.redis.proxy.command.async.cluster;
 
-import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClusterStatInfo;
+import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyStat;
 
 /**
  * 实现Cluster的协议的接口
@@ -10,7 +10,7 @@ public interface ClusterProxy {
      * 生成id,每次调用都需要调用该方法
      * @return
      */
-    ProxyClusterStatInfo id();
+    ProxyStat id();
     /**
      * summary: Provides info about Redis Cluster proxy node state
      * 
@@ -96,7 +96,7 @@ public interface ClusterProxy {
      * summary: Returns the hash slot of the specified key
      * @return
      */
-    String keySlot(String key) ;
+    Long keySlot(String key) ;
     
     /**
      * summary: Force a node cluster to handshake with another node

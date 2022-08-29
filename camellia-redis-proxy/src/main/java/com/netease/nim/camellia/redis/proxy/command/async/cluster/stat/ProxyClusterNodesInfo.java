@@ -10,7 +10,7 @@ public class ProxyClusterNodesInfo {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < nodes.size(); i++) {
-            stringBuilder.append(nodes.get(i).toString()+"\r\n");
+            stringBuilder.append(nodes.get(i).toString());
         }
         return stringBuilder.toString();
     }
@@ -28,7 +28,7 @@ public class ProxyClusterNodesInfo {
         private String ip;
         private String role;
         private String masterId;
-        private String connectCount;
+        private int connectCount;
         private String range_start;
         private String range_end;
         private String slot_begin;
@@ -66,11 +66,11 @@ public class ProxyClusterNodesInfo {
             this.masterId = masterId;
         }
     
-        public String getConnectCount() {
+        public int getConnectCount() {
             return connectCount;
         }
     
-        public void setConnectCount(final String connectCount) {
+        public void setConnectCount(final int connectCount) {
             this.connectCount = connectCount;
         }
     
@@ -108,7 +108,11 @@ public class ProxyClusterNodesInfo {
     
         @Override
         public String toString() {
-            return id + " " + ip + " " + role + " " + masterId + " " + range_start + " " + range_end + " " + connectCount + "connected" + " " + slot_begin + "-" + slot_end + "\n";
+            String copyMasterId = "-";
+            if("slave".equals(this.role)){
+                copyMasterId = this.masterId;
+            }
+            return id + " " + ip + " " + role + " " + copyMasterId + " " + range_start + " " + range_end + " " + connectCount + " connected" + " " + slot_begin + "-" + slot_end;
         }
     }
 }

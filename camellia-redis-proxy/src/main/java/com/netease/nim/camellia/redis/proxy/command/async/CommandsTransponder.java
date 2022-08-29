@@ -170,6 +170,7 @@ public class CommandsTransponder {
                     hasCommandsSkip = true;
                     continue;
                 }
+                //用于解析cluster命令
                 if(redisCommand == RedisCommand.CLUSTER){
                     CompletableFuture<Reply> future = ClusterProxyInfoUtils.getInfoReply(command);
                     future.thenAccept(task::replyCompleted);

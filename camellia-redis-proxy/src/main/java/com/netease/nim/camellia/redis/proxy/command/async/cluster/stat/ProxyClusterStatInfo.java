@@ -3,22 +3,22 @@ package com.netease.nim.camellia.redis.proxy.command.async.cluster.stat;
 public class ProxyClusterStatInfo {
     
     private String id;
-    private String cluster_state;
-    private int cluster_slots_assigned;
-    private int cluster_slots_ok;
-    private int cluster_slots_pfail;
-    private int cluster_slots_fail;
-    private int cluster_known_nodes;
-    private int cluster_size;
-    private int cluster_current_epoch;
-    private int cluster_my_epoch;
-    private int cluster_stats_messages_ping_sent;
-    private int cluster_stats_messages_pong_sent;
-    private int cluster_stats_messages_meet_sent;
-    private int cluster_stats_messages_sent;
-    private int cluster_stats_messages_ping_received;
-    private int cluster_stats_messages_pong_received;
-    private int cluster_stats_messages_received;
+    private String cluster_state = "OK";
+    private int cluster_slots_assigned = 16384;
+    private int cluster_slots_ok = 16384;
+    private int cluster_slots_pfail = 0;
+    private int cluster_slots_fail = 0;
+    private int cluster_known_nodes = 1;
+    private int cluster_size = 1;
+    private int cluster_current_epoch = 1;
+    private int cluster_my_epoch = 1;
+    private int cluster_stats_messages_ping_sent = 1;
+    private int cluster_stats_messages_pong_sent = 1;
+    private int cluster_stats_messages_meet_sent = 1;
+    private int cluster_stats_messages_sent = 1;
+    private int cluster_stats_messages_ping_received = 1;
+    private int cluster_stats_messages_pong_received = 1;
+    private int cluster_stats_messages_received = 1;
     
     @Override
     public String toString() {
