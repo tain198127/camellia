@@ -50,6 +50,12 @@ public class ClusterProxyInfoUtils {
         try {
             StringBuilder builder = new StringBuilder();
             byte[][] objects = command.getObjects();
+            if(logger.isDebugEnabled()) {
+                for (int i = 0; i < objects.length; i++) {
+                    logger.error("{} \n",Utils.bytesToString(objects[i]));
+                    
+                }
+            }
             if (objects.length == 1) {
                 return ErrorReply.SYNTAX_ERROR;
                 
@@ -74,10 +80,8 @@ public class ClusterProxyInfoUtils {
                 else {
                     if(logger.isDebugEnabled()) {
                         for (int i = 0; i < objects.length; i++) {
-                            logger.debug("%s \n",Utils.bytesToString(objects[i]));
-                            for(int j=0;j < objects[i].length;j++){
-                                logger.debug("  -->%s\n",Utils.bytesToString(objects[j]));
-                            }
+                            logger.error("{} \n",Utils.bytesToString(objects[i]));
+                            
                         }
                     }
                     return ErrorReply.NOT_SUPPORT;

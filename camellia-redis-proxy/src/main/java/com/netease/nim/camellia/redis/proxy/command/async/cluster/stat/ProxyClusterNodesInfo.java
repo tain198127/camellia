@@ -10,7 +10,7 @@ public class ProxyClusterNodesInfo {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < nodes.size(); i++) {
-            stringBuilder.append(nodes.get(i).toString());
+            stringBuilder.append(nodes.get(i).toString()+"\n");
         }
         return stringBuilder.toString();
     }
