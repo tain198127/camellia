@@ -32,7 +32,7 @@ camellia-redis-proxy是一款高性能的redis代理，使用netty4开发
 * 提供了一个spring-boot-starter，可以快速搭建proxy集群
 * 提供了一个默认的注册发现实现组件（依赖zookeeper），如果端侧是java，则可以很简单的将JedisPool替换为RedisProxyJedisPool，即可接入redis proxy  
 * 提供了一个spring-boot-starter用于SpringRedisTemplate以注册发现模式接入proxy
-* 支持整合hbase实现string/zset/set等数据结构的冷热分离存储操作，具体见: [redis-proxy-hbase](/docs/redis-proxy-hbase/redis-proxy-hbase.md)
+* 支持整合hbase实现string/zset/hash等数据结构的冷热分离存储操作，具体见: [redis-proxy-hbase](/docs/redis-proxy-hbase/redis-proxy-hbase.md)
 
 ## 支持的命令
 * 完整支持
@@ -110,12 +110,12 @@ MULTI,DISCARD,EXEC,WATCH,UNWATCH,
 ``` 
 
 ## 快速开始一
-1) 首先创建一个spring-boot的工程，然后添加以下依赖（最新1.0.60），如下：（see [sample-code](/camellia-samples/camellia-redis-proxy-samples)）:   
+1) 首先创建一个spring-boot的工程，然后添加以下依赖（最新1.0.61），如下：（see [sample-code](/camellia-samples/camellia-redis-proxy-samples)）:   
 ```
 <dependency>
   <groupId>com.netease.nim</groupId>
   <artifactId>camellia-redis-proxy-spring-boot-starter</artifactId>
-  <version>1.0.60</version>
+  <version>1.0.61</version>
 </dependency>
 ```
 2) 编写主类Application.java, 如下: 
@@ -223,6 +223,7 @@ camellia-redis-proxy提供了key/value的自定义转换功能，从而你可以
 * 客户端接入（java之SpringRedisTemplate)
 * 客户端接入（其他语言）
 * 注意事项（容器环境部署）
+* 部署最佳实践
 
 具体可见：[部署和接入](deploy.md)
 

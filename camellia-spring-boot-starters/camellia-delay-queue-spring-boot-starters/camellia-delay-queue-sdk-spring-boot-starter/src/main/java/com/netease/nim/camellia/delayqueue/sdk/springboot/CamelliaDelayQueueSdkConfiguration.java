@@ -51,6 +51,9 @@ public class CamelliaDelayQueueSdkConfiguration implements ApplicationContextAwa
                 listenerConfig.setPullBatch(config.pullBatch() <= 0 ? sdkConfig.getListenerConfig().getPullBatch() : config.pullBatch());
                 listenerConfig.setPullThreads(config.pullThreads() <= 0 ? sdkConfig.getListenerConfig().getPullThreads() : config.pullThreads());
                 listenerConfig.setPullIntervalTimeMillis(config.pullIntervalTimeMillis() <= 0 ? sdkConfig.getListenerConfig().getPullIntervalTimeMillis() : config.pullIntervalTimeMillis());
+                listenerConfig.setLongPollingEnable(config.longPollingEnable());
+                listenerConfig.setConsumeThreads(config.consumeThreads() <= 0 ? sdkConfig.getListenerConfig().getConsumeThreads() : config.consumeThreads());
+                listenerConfig.setLongPollingTimeoutMillis(config.longPollingTimeoutMillis() <= 0 ? sdkConfig.getListenerConfig().getLongPollingTimeoutMillis() : config.longPollingTimeoutMillis());
                 sdk.addMsgListener(config.topic(), listenerConfig, listener);
             }
         }

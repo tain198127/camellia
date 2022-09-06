@@ -5,13 +5,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.netease.nim</groupId>
 	<artifactId>camellia</artifactId>
-	<version>1.0.61-SNAPSHOT</version>
+	<version>1.0.62-SNAPSHOT</version>
 	<name>camellia base module</name>
 	<url>https://github.com/netease-im/camellia</url>
 	<packaging>pom</packaging>
 	<description>camellia framework</description>
 	<modules>
 		<module>camellia-core</module>
+		<module>camellia-console</module>
 		<module>camellia-dashboard</module>
 		<module>camellia-delay-queue</module>
 		<module>camellia-feign</module>
