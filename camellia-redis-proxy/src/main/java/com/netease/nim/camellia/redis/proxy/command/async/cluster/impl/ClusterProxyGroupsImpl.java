@@ -124,7 +124,7 @@ public final class ClusterProxyGroupsImpl implements ClusterProxy {
     }
     
     public String bumpEpoch() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     @Override
@@ -148,23 +148,23 @@ public final class ClusterProxyGroupsImpl implements ClusterProxy {
     }
     
     public String countKeysInSlot() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     public String countFailureReports() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     public String delSlots() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     public String failover() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     public String flushSlots() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("not support");
     }
     
     @Override
@@ -220,50 +220,6 @@ public final class ClusterProxyGroupsImpl implements ClusterProxy {
     @Override
     public String slaves(final String node_id) {
         return null;
-    }
-    
-    public String forget() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String getKeysInSlot() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String keySlot() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String meet() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String replicas() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String replicate() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String reset() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String saveconfig() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String setConfigEpoch() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String setSlot() {
-        throw new UnsupportedOperationException();
-    }
-    
-    public String slaves() {
-        throw new UnsupportedOperationException();
     }
     
     private Reply generateInfoReply(Command command) {
