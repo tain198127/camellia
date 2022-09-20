@@ -1,6 +1,5 @@
 package com.netease.nim.camellia.redis.proxy.command.async.cluster.impl;
 
-import com.netease.nim.camellia.redis.proxy.command.Command;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.ClusterProxy;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClusterNodesInfo;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClusterNodesInfo.ClusterNode;
@@ -9,13 +8,7 @@ import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClus
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClusterSlotInfo.SimpleNode;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyClusterStatInfo;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.stat.ProxyStat;
-import com.netease.nim.camellia.redis.proxy.command.async.info.ProxyInfoUtils;
-import com.netease.nim.camellia.redis.proxy.reply.BulkReply;
-import com.netease.nim.camellia.redis.proxy.reply.ErrorReply;
-import com.netease.nim.camellia.redis.proxy.reply.Reply;
-import com.netease.nim.camellia.redis.proxy.util.ErrorLogCollector;
 import com.netease.nim.camellia.redis.proxy.util.RedisClusterCRC16Utils;
-import com.netease.nim.camellia.redis.proxy.util.Utils;
 import io.netty.util.concurrent.DefaultThreadFactory;
 
 import java.util.ArrayList;
@@ -221,35 +214,5 @@ public final class ClusterProxyGroupsImpl implements ClusterProxy {
     @Override
     public String slaves(final String node_id) {
         return null;
-    }
-    
-    private Reply generateInfoReply(Command command) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            byte[][] objects = command.getObjects();
-            if (objects.length == 1) {
-                return ErrorReply.SYNTAX_ERROR;
-                
-            } else {
-                if (objects.length == 2) {
-                    String section = Utils.bytesToString(objects[1]);
-                    if (section.equalsIgnoreCase("INFO")) {
-                        builder.append(info()).append("\r\n");
-                    } else if (section.equalsIgnoreCase("MYID")) {
-                        builder.append(myID()).append("\r\n");
-                    } else if (section.equalsIgnoreCase("NODES")) {
-                        builder.append(nodes()).append("\r\n");
-                    } else if (section.equalsIgnoreCase("SLOTS")) {
-                        builder.append(slots()).append("\r\n");
-                    }
-                } else {
-                    return ErrorReply.NOT_SUPPORT;
-                }
-            }
-            return new BulkReply(Utils.stringToBytes(builder.toString()));
-        } catch (Exception e) {
-            ErrorLogCollector.collect(ProxyInfoUtils.class, "getInfoReply error", e);
-            return new ErrorReply("generate proxy info error");
-        }
     }
 }

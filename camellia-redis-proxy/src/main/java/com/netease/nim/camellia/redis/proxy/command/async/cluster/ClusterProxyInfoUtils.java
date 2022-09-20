@@ -2,7 +2,6 @@ package com.netease.nim.camellia.redis.proxy.command.async.cluster;
 
 import com.netease.nim.camellia.redis.proxy.command.Command;
 import com.netease.nim.camellia.redis.proxy.command.async.cluster.impl.ClusterProxyGroupsImpl;
-import com.netease.nim.camellia.redis.proxy.command.async.info.ProxyInfoUtils;
 import com.netease.nim.camellia.redis.proxy.reply.BulkReply;
 import com.netease.nim.camellia.redis.proxy.reply.ErrorReply;
 import com.netease.nim.camellia.redis.proxy.reply.Reply;
@@ -51,7 +50,7 @@ public class ClusterProxyInfoUtils {
             });
             return future;
         } catch (Exception e) {
-            ErrorLogCollector.collect(ProxyInfoUtils.class, "submit generateInfoReply task error", e);
+            ErrorLogCollector.collect(ClusterProxyInfoUtils.class, "submit generateInfoReply task error", e);
             future.complete(ErrorReply.TOO_BUSY);
             return future;
         }
@@ -97,7 +96,7 @@ public class ClusterProxyInfoUtils {
             }
             return new BulkReply(Utils.stringToBytes(builder.toString()));
         } catch (Exception e) {
-            ErrorLogCollector.collect(ProxyInfoUtils.class, "getInfoReply error", e);
+            ErrorLogCollector.collect(ClusterProxyInfoUtils.class, "getInfoReply error", e);
             return new ErrorReply("generate proxy info error");
         }
     }
