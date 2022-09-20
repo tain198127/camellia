@@ -184,6 +184,7 @@ public final class ClusterProxyGroupsImpl implements ClusterProxy {
     
     @Override
     public String meet(final String ip, final String port) {
+        //将自身的stat信息和目标系统进行交换，并进行merge，从而保证数据一致性
         return null;
     }
     

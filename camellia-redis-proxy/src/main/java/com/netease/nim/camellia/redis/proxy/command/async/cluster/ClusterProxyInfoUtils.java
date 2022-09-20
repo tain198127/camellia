@@ -12,10 +12,13 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class ClusterProxyInfoUtils {
     //TODO 这里需要根据环境进行配置
@@ -23,6 +26,16 @@ public class ClusterProxyInfoUtils {
     private static final Logger logger = LoggerFactory.getLogger(ClusterProxyInfoUtils.class);
     private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(8), new DefaultThreadFactory("cluster-info"));
+    private static Map<String,Function<byte[][],Object>> functionMap = new HashMap<>();
+    static {
+        functionMap.put(ClusterCommand.INFO, bytes -> _proxy.info());
+        functionMap.put(ClusterCommand.MYID,bytes -> _proxy.myID());
+        functionMap.put(ClusterCommand.NODES,bytes -> _proxy.nodes());
+        functionMap.put(ClusterCommand.SLOTS,bytes -> _proxy.slots());
+        functionMap.put(ClusterCommand.KEYSLOT, objects -> _proxy.keySlot(Utils.bytesToString(objects[2])));
+        functionMap.put(ClusterCommand.MEET,bytes -> _proxy.meet(Utils.bytesToString(bytes[2]),Utils.bytesToString(bytes[3])));
+    }
+    
     /**
      * 获取集群信息
      * @param cmd
@@ -43,16 +56,23 @@ public class ClusterProxyInfoUtils {
             return future;
         }
     }
-    public static void setClusterImpl(ClusterProxy proxy){
+    
+    /**
+     * 扩展点，可以根据具体实现进行配置
+     * @param proxy
+     */
+    public static void rImpl(ClusterProxy proxy){
         _proxy = proxy;
     }
+    
+    Function<String,Byte[][]> function;
     public static Reply generateInfoReply(Command command) {
         try {
             StringBuilder builder = new StringBuilder();
             byte[][] objects = command.getObjects();
             if(logger.isDebugEnabled()) {
                 for (int i = 0; i < objects.length; i++) {
-                    logger.error("{} \n",Utils.bytesToString(objects[i]));
+                    logger.debug("{} \n",Utils.bytesToString(objects[i]));
                     
                 }
             }
@@ -60,23 +80,11 @@ public class ClusterProxyInfoUtils {
                 return ErrorReply.SYNTAX_ERROR;
                 
             } else {
-                if (objects.length == 2) {
-                    String section = Utils.bytesToString(objects[1]);
-                    if (section.equalsIgnoreCase("INFO")) {
-                        builder.append(_proxy.info());
-                    } else if (section.equalsIgnoreCase("MYID")) {
-                        builder.append(_proxy.myID());
-                    } else if (section.equalsIgnoreCase("NODES")) {
-                        builder.append(_proxy.nodes());
-                    } else if (section.equalsIgnoreCase("SLOTS")) {
-                        builder.append(_proxy.slots());
-                    }
-                }else if(objects.length == 3){
-                    String section = Utils.bytesToString(objects[1]);
-                    if(section.equalsIgnoreCase("KEYSLOT")){
-                        builder.append(_proxy.keySlot(Utils.bytesToString(objects[2])));
-                    }
+                String section = Utils.bytesToString(objects[1]).toUpperCase();
+                if(functionMap.containsKey(section)){
+                    builder.append(functionMap.get(section).apply(objects));
                 }
+                
                 else {
                     if(logger.isDebugEnabled()) {
                         for (int i = 0; i < objects.length; i++) {
@@ -93,5 +101,32 @@ public class ClusterProxyInfoUtils {
             return new ErrorReply("generate proxy info error");
         }
     }
+    
+    /**
+     * 加入某个集群
+     * @param command
+     * @return
+     */
+//    public static Reply joinCluster(Command command){
+//        StringBuilder builder = new StringBuilder();
+//        byte[][] objects = command.getObjects();
+//        if(logger.isDebugEnabled()) {
+//            for (int i = 0; i < objects.length; i++) {
+//                logger.error("{} \n",Utils.bytesToString(objects[i]));
+//            }
+//        }
+//        if (objects.length == 1) {
+//            return ErrorReply.SYNTAX_ERROR;
+//        }
+//    }
+    
+    /**
+     * 下线前必须执行
+     * @param command
+     * @return
+     */
+//    public static Reply disconectCluster(Command command){
+//        
+//    }
     
 }
