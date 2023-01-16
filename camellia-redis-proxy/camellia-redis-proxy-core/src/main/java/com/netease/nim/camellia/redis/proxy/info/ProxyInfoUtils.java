@@ -41,7 +41,7 @@ public class ProxyInfoUtils {
     private static final ThreadPoolExecutor executor = new ThreadPoolExecutor(1, 1, 0, TimeUnit.SECONDS,
             new LinkedBlockingQueue<>(8), new DefaultThreadFactory("proxy-info"));
 
-    public static final String VERSION = "v1.1.11";
+    public static final String VERSION = "v1.1.12";
     private static final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
     private static final OperatingSystemMXBean osBean = ManagementFactory.getOperatingSystemMXBean();
     private static final MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
@@ -103,20 +103,20 @@ public class ProxyInfoUtils {
                 String bid = params.get("bid");
                 String bgroup = params.get("bgroup");
                 if (bid == null || bgroup == null) {
-                    return UpstreamInfoUtils.upstreamInfo(null, null, GlobalRedisProxyEnv.chooser, parseJson);
+                    return UpstreamInfoUtils.upstreamInfo(null, null, GlobalRedisProxyEnv.getChooser(), parseJson);
                 }
                 try {
                     Long.parseLong(bid);
                 } catch (NumberFormatException e) {
                     return parseResponse(ErrorReply.SYNTAX_ERROR, parseJson);
                 }
-                return UpstreamInfoUtils.upstreamInfo(Long.parseLong(bid), bgroup, GlobalRedisProxyEnv.chooser, parseJson);
+                return UpstreamInfoUtils.upstreamInfo(Long.parseLong(bid), bgroup, GlobalRedisProxyEnv.getChooser(), parseJson);
             } else {
-                Reply reply = generateInfoReply(new Command(new byte[][]{RedisCommand.INFO.raw(), section.getBytes(StandardCharsets.UTF_8)}), GlobalRedisProxyEnv.chooser);
+                Reply reply = generateInfoReply(new Command(new byte[][]{RedisCommand.INFO.raw(), section.getBytes(StandardCharsets.UTF_8)}), GlobalRedisProxyEnv.getChooser());
                 return parseResponse(reply, parseJson);
             }
         } else {
-            Reply reply = generateInfoReply(new Command(new byte[][]{RedisCommand.INFO.raw()}), GlobalRedisProxyEnv.chooser);
+            Reply reply = generateInfoReply(new Command(new byte[][]{RedisCommand.INFO.raw()}), GlobalRedisProxyEnv.getChooser());
             return parseResponse(reply, parseJson);
         }
     }
@@ -252,14 +252,14 @@ public class ProxyInfoUtils {
         builder.append("camellia_redis_proxy_version:" + VERSION).append("\r\n");
         builder.append("redis_version:6.2.6").append("\r\n");//spring actuator默认会使用info命令返回的redis_version字段来做健康检查，这里直接返回一个固定的版本号
         builder.append("available_processors:").append(osBean.getAvailableProcessors()).append("\r\n");
-        builder.append("netty_boss_thread:").append(GlobalRedisProxyEnv.bossThread).append("\r\n");
-        builder.append("netty_work_thread:").append(GlobalRedisProxyEnv.workThread).append("\r\n");
+        builder.append("netty_boss_thread:").append(GlobalRedisProxyEnv.getBossThread()).append("\r\n");
+        builder.append("netty_work_thread:").append(GlobalRedisProxyEnv.getWorkThread()).append("\r\n");
         builder.append("arch:").append(osBean.getArch()).append("\r\n");
         builder.append("os_name:").append(osBean.getName()).append("\r\n");
         builder.append("os_version:").append(osBean.getVersion()).append("\r\n");
         builder.append("system_load_average:").append(osBean.getSystemLoadAverage()).append("\r\n");
-        builder.append("tcp_port:").append(GlobalRedisProxyEnv.port).append("\r\n");
-        builder.append("http_console_port:").append(GlobalRedisProxyEnv.consolePort).append("\r\n");
+        builder.append("tcp_port:").append(GlobalRedisProxyEnv.getPort()).append("\r\n");
+        builder.append("http_console_port:").append(GlobalRedisProxyEnv.getConsolePort()).append("\r\n");
         long uptime = runtimeMXBean.getUptime();
         long uptimeInSeconds = uptime / 1000L;
         long uptimeInDays = uptime / (1000L * 60 * 60 * 24);

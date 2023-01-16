@@ -1,14 +1,12 @@
 package com.netease.nim.camellia.id.gen.sdk;
 
 import com.netease.nim.camellia.core.discovery.CamelliaDiscovery;
-import com.netease.nim.camellia.tools.executor.CamelliaThreadFactory;
 import com.netease.nim.camellia.id.gen.common.CamelliaIdGenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
@@ -41,8 +39,8 @@ public class CamelliaIdGenInvoker {
             throw new CamelliaIdGenException("id gen server is empty");
         }
         this.dynamic = new ArrayList<>(all);
-        Executors.newSingleThreadScheduledExecutor(new CamelliaThreadFactory("id-gen-sdk", true))
-                .scheduleAtFixedRate(this::reload, config.getDiscoveryReloadIntervalSeconds(), config.getDiscoveryReloadIntervalSeconds(), TimeUnit.SECONDS);
+        config.getScheduleThreadPool().scheduleAtFixedRate(this::reload, config.getDiscoveryReloadIntervalSeconds(),
+                config.getDiscoveryReloadIntervalSeconds(), TimeUnit.SECONDS);
         this.discovery.setCallback(new CamelliaDiscovery.Callback<IdGenServer>() {
             @Override
             public void add(IdGenServer server) {

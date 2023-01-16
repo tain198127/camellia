@@ -4,20 +4,21 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>camellia-delay-queue</artifactId>
-	<version>1.1.12-SNAPSHOT</version>
+	<version>1.1.13-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>com.netease.nim</groupId>
 		<artifactId>camellia</artifactId>
-		<version>1.1.12-SNAPSHOT</version>
+		<version>1.1.13-SNAPSHOT</version>
 	</parent>
 
 	<modules>
 		<module>camellia-delay-queue-common</module>
 		<module>camellia-delay-queue-sdk</module>
 		<module>camellia-delay-queue-server</module>
+		<module>camellia-delay-queue-server-bootstrap</module>
 		<module>camellia-delay-queue-spring-boot-starters</module>
 	</modules>
 </project>

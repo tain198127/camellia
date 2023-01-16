@@ -1,7 +1,6 @@
 package com.netease.nim.camellia.redis.proxy.netty;
 
 
-import com.netease.nim.camellia.redis.exception.CamelliaRedisException;
 import com.netease.nim.camellia.redis.proxy.command.AsyncTaskQueue;
 import com.netease.nim.camellia.redis.proxy.command.Command;
 import com.netease.nim.camellia.redis.proxy.upstream.client.RedisClient;
@@ -62,7 +61,7 @@ public class ChannelInfo {
         this.clientSocketAddress = ctx.channel().remoteAddress();
         this.asyncTaskQueue = new AsyncTaskQueue(this);
         this.mock = false;
-        this.fromCport = ((InetSocketAddress) ctx.channel().localAddress()).getPort() == GlobalRedisProxyEnv.cport;
+        this.fromCport = ((InetSocketAddress) ctx.channel().localAddress()).getPort() == GlobalRedisProxyEnv.getCport();
     }
 
     /**

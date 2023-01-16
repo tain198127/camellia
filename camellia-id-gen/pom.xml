@@ -4,19 +4,20 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<artifactId>camellia-id-gen</artifactId>
-	<version>1.1.12-SNAPSHOT</version>
+	<version>1.1.13-SNAPSHOT</version>
 
 	<packaging>pom</packaging>
 
 	<parent>
 		<groupId>com.netease.nim</groupId>
 		<artifactId>camellia</artifactId>
-		<version>1.1.12-SNAPSHOT</version>
+		<version>1.1.13-SNAPSHOT</version>
 	</parent>
 
 	<modules>
 		<module>camellia-id-gen-core</module>
 		<module>camellia-id-gen-sdk</module>
 		<module>camellia-id-gen-spring-boot-starters</module>
+		<module>camellia-id-gen-server-bootstraps</module>
 	</modules>
 </project>

@@ -2,7 +2,6 @@ package com.netease.nim.camellia.redis.proxy.util;
 
 import com.netease.nim.camellia.redis.proxy.conf.CamelliaServerProperties;
 import com.netease.nim.camellia.redis.proxy.reply.*;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -267,24 +266,4 @@ public class Utils {
         return md5 == null || (newMd5 != null && !md5.equals(newMd5));
     }
     
-    public static void enableQuickAck(Bootstrap bootstrap, boolean isQuickAck) {
-        if(Epoll.isAvailable() && isQuickAck) {
-            bootstrap.option(EpollChannelOption.TCP_QUICKACK,isQuickAck);
-        }
-    }
-    public static void enableQuickAck(Channel channel, boolean isQuickAck) {
-        if(Epoll.isAvailable() && isQuickAck) {
-            channel.config().setOption(EpollChannelOption.TCP_QUICKACK,isQuickAck);
-        }
-    }
-    public static void enableQuickAck(ServerBootstrap bootstrap, CamelliaServerProperties serverProperties) {
-        if(Epoll.isAvailable() && serverProperties.isTcpQuickAck()) {
-            bootstrap.childOption(EpollChannelOption.TCP_QUICKACK, serverProperties.isTcpQuickAck());
-        }
-    }
-    public static void enableQuickAck(Channel channel, CamelliaServerProperties serverProperties){
-        if(Epoll.isAvailable() && serverProperties.isTcpQuickAck()) {
-            channel.config().setOption(EpollChannelOption.TCP_QUICKACK, serverProperties.isTcpQuickAck());
-        }
-    }
 }

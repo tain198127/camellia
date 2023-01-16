@@ -1,5 +1,32 @@
 [ENGLISH](update-en.md)
 
+# 1.1.13（2023/01/xx）
+### 新增
+* camellia-redis-proxy支持使用transport_native_epoll、transport_native_kqueue、transport_native_io_uring，默认使用jdk_nio，具体见：[netty-conf](/docs/redis-proxy/other/netty-conf.md)
+* camellia-redis-proxy支持配置TCP_QUICKACK参数，当前仅当使用transport_native_epoll时支持，具体见：[netty-conf](/docs/redis-proxy/other/netty-conf.md)
+
+### 更新
+* id-gen-sdk底层线程池默认使用共享模式，减少初始化多个sdk实例时的线程数量占用
+* delay-queue-sdk底层线程池默认使用共享模式，减少初始化多个sdk实例时的线程数量占用
+* RedisProxyJedisPool底层线程池默认使用共享模式，减少初始化多个实例时的线程数量占用
+* id-gen-server新增bootstrap模块，提供直接运行的安装包
+* delay-queue-server新增bootstrap模块，提供直接运行的安装包
+
+### fix
+* 无
+
+
+# 1.1.12（2023/01/12）
+### 新增
+* 无
+
+### 更新
+* 回滚了1.1.8中对于BulkReply的堆外内存优化（当客户端连接在收到reply之前断开连接，可能导致BulkReply中的ByteBuf没有release，引起内存泄漏）
+
+### fix
+* 修复camellia-redis-proxy，当客户端连接在收到reply之前断开连接，可能导致BulkReply中的ByteBuf没有release，1.1.8引入
+
+
 # 1.1.11（2023/01/10）
 ### 新增
 * camellia-redis-proxy新增对prometheus/grafana的支持，感谢[@tasszz2k](https://github.com/tasszz2k) ，具体见：[prometheus-grafana](/docs/redis-proxy/monitor/prometheus-grafana.md)
