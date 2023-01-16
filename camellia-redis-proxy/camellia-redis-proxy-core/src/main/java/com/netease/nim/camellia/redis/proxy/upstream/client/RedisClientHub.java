@@ -60,7 +60,7 @@ public class RedisClientHub {
     public static boolean closeIdleConnection = Constants.Transpond.closeIdleConnection;
     public static long checkIdleConnectionThresholdSeconds = Constants.Transpond.checkIdleConnectionThresholdSeconds;
     public static int closeIdleConnectionDelaySeconds = Constants.Transpond.closeIdleConnectionDelaySeconds;
-
+    public static boolean quickAck = Constants.Transpond.isTcpQuickAck;
     private static final ConcurrentHashMap<Object, LockMap> lockMapMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<EventLoop, ConcurrentHashMap<String, AtomicBoolean>> initializerStatusMap = new ConcurrentHashMap<>();
 
@@ -184,6 +184,7 @@ public class RedisClientHub {
             config.setCloseIdleConnectionDelaySeconds(closeIdleConnectionDelaySeconds);
             config.setCheckIdleConnectionThresholdSeconds(checkIdleConnectionThresholdSeconds);
             config.setSkipCommandSpendTimeMonitor(true);
+            config.setUpstreamTcpQuickAck(quickAck);
             RedisClient client = new RedisClient(config);
             client.start();
             if (client.isValid()) {

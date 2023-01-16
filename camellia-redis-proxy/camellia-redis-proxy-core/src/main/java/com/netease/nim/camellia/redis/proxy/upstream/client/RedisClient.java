@@ -115,6 +115,7 @@ public class RedisClient implements AsyncClient {
                             pipeline.addLast(new CommandPackEncoder(RedisClient.this, queue));
                         }
                     });
+            Utils.enableQuickAck(bootstrap,redisClientConfig.isUpstreamTcpQuickAck());
             if (logger.isInfoEnabled()) {
                 logger.info("{} try connect...", clientName);
             }

@@ -1,5 +1,6 @@
 package com.netease.nim.camellia.redis.proxy.upstream.client;
 
+import com.netease.nim.camellia.redis.proxy.conf.Constants;
 import io.netty.channel.EventLoopGroup;
 
 /**
@@ -23,6 +24,18 @@ public class RedisClientConfig {
     private int closeIdleConnectionDelaySeconds;
 
     private boolean skipCommandSpendTimeMonitor;//是否跳过统计后端redis响应时间
+    public boolean upstreamTcpQuickAck =  Constants.Transpond.isTcpQuickAck;
+
+    public boolean isUpstreamTcpQuickAck() {
+        return upstreamTcpQuickAck;
+    }
+
+    public void setUpstreamTcpQuickAck(boolean upstreamTcpQuickAck) {
+        this.upstreamTcpQuickAck = upstreamTcpQuickAck;
+    }
+
+
+
 
     public String getHost() {
         return host;

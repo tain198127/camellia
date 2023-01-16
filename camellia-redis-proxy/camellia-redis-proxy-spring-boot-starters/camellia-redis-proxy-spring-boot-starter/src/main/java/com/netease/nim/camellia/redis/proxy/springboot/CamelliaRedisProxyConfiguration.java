@@ -59,6 +59,8 @@ public class CamelliaRedisProxyConfiguration implements ApplicationContextAware 
     @Bean
     @ConditionalOnMissingBean(value = {CommandInvoker.class})
     public CommandInvoker commandInvoker(CamelliaRedisProxyProperties properties) {
+
+        CamelliaServerProperties camelliaServerProperties = camelliaServerProperties(properties);
         CamelliaTranspondProperties transpondProperties = new CamelliaTranspondProperties();
         TranspondProperties transpond = properties.getTranspond();
 
@@ -68,10 +70,10 @@ public class CamelliaRedisProxyConfiguration implements ApplicationContextAware 
         transpondProperties.setCustom(CamelliaRedisProxyUtil.parse(transpond.getCustom()));
         transpondProperties.setRedisConf(CamelliaRedisProxyUtil.parse(transpond.getRedisConf()));
         transpondProperties.setNettyProperties(CamelliaRedisProxyUtil.parse(transpond.getNetty()));
-
+        transpondProperties.getNettyProperties().setQuickAck(camelliaServerProperties.isTcpQuickAck());
         GlobalRedisProxyEnv.bossGroup = bossGroup(properties).get();
         GlobalRedisProxyEnv.workGroup = workGroup(properties).get();
-        return new AsyncCommandInvoker(camelliaServerProperties(properties), transpondProperties);
+        return new AsyncCommandInvoker(camelliaServerProperties, transpondProperties);
     }
 
     @Bean

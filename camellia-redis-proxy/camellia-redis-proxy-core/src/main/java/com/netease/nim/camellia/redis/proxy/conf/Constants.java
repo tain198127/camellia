@@ -79,6 +79,8 @@ public class Constants {
         public static final boolean soKeepalive = true;
         public static final int writeBufferWaterMarkLow = 128 * 1024;
         public static final int writeBufferWaterMarkHigh = 512 * 1024;
+        public static final boolean isTcpQuickAck = false;// is turn quick ack tcp option
+
     }
 
     public static class Remote {

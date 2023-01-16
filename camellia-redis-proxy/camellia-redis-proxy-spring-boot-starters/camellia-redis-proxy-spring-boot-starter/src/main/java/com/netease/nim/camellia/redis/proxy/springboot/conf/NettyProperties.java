@@ -23,6 +23,7 @@ public class NettyProperties {
     private int writeBufferWaterMarkHigh = Constants.Server.writeBufferWaterMarkHigh;
     private int commandDecodeMaxBatchSize = Constants.Server.commandDecodeMaxBatchSize;
     private int commandDecodeBufferInitializerSize = Constants.Server.commandDecodeBufferInitializerSize;
+    private boolean quickAck=Constants.Server.isTcpQuickAck;
 
     public boolean isQuickAck() {
         return quickAck;
@@ -32,7 +33,6 @@ public class NettyProperties {
         this.quickAck = quickAck;
     }
 
-    private boolean quickAck=Constants.Server.isTcpQuickAck;
     public int getBossThread() {
         return bossThread;
     }
